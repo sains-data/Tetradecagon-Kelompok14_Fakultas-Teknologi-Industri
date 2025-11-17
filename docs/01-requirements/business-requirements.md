@@ -262,3 +262,174 @@ Nama Anggota Kelompok:
 ---
 
 ## Step 4: Data Modeling - Dimensional Model
+
+*Tujuan:* Mengkonversi model konseptual ke dimensional model untuk data warehouse.
+
+*Aktivitas:*
+
+### Identifikasi Fact Tables
+
+* *Fact_Akademik,* mendukung metrik: (Jumlah mahasiswa per tahun, rata-rata IPK per prodi).
+    * Proses bisnis: Pencatatan data akademik per program studi per periode.
+    * Grain: 1 baris = data akademik untuk 1 prodi pada 1 tahun ajaran. Measures: jumlah_mahasiswa_baru, rata_rata_ipk
+* *Fact_Dosen,* mendukung metrik: (Rasio dosen terhadap mahasiswa per prodi).
+    * Proses bisnis: Mengukur beban dosen per program studi per periode.
+    * Grain: 1 baris = data staf dosen untuk 1 prodi pada 1 tahun. Measures: jumlah_dosen, jumlah_mahasiswa, rasio_dosen_mahasiswa.
+* *Fact_Prestasi,* mendukung metrik: (Jumlah prestasi mahasiswa akademik/non-akademik per periode).
+    * Proses bisnis: Pencatatan prestasi mahasiswa.
+    * Grain: 1 baris = 1 prestasi mahasiswa pada 1 waktu. Measures: jumlah_prestasi.
+* *Fact_Anggaran,* mendukung metrik: (Total anggaran penelitian fakultas per tahun, Rata-rata pengeluaran per prodi).
+    * Proses bisnis: Pencatatan anggaran dan dana penelitian.
+    * Grain: 1 baris = jumlah anggaran untuk 1 prodi pada 1 periode. Measures: total_anggaran, total_pengeluaran.
+* *Fact_Akreditasi,* mendukung metrik: (Status akreditasi prodi).
+    * Proses bisnis: Pencatatan hasil akreditasi program studi.
+    * Grain: 1 baris = 1 hasil akreditasi prodi pada 1 periode. Measures: jumlah_akreditasi, nilai_akreditasi.
+
+*Klasifikasi additivity (additive, semi-additive, non-additive)*
+
+| Fact | Measures | Additivity | Keterangan |
+| :--- | :--- | :--- | :--- |
+| Fact_Akademik | jumlah_mahasiswa_baru | Additive | Bisa dijumlahkan across prodi/waktu (kalau periodenya tidak overlap). |
+| Fact_Akademik | rata_rata_ipk | Non-Additive | Rata-rata tidak bisa di-sum. |
+| Fact_Dosen | jumlah_dosen | Additive | Bisa dijumlahkan antar prodi. |
+| Fact_Dosen | rasio_dosen_mahasiswa | Non-Additive | Rasio tidak bisa di-sum. |
+| Fact_Prestasi | jumlah_prestasi | Additive | Prestasi dapat dihitung per prodi/waktu. |
+| Fact_Anggaran | total_anggaran | Semi-additive | "Tidak dijumlahkan antar tahun, tetapi bisa antar prodi." |
+| Fact_Akreditasi | jumlah_akreditasi | Additive | Menghitung jumlah perubahan akreditasi. |
+
+### Identifikasi Dimension Tables
+
+*Dimension yang mendukung analisis (Who, What, Where, When, Why, How)*
+
+* *Who*
+    * *Dim _Mahasiswa*: digunakan untuk mengetahui siapa mahasiswa yang terkait dengan prestasi atau data lain.
+    * *Dim_Dosen*: digunakan untuk mengetahui rasio dosen dan mahasiswa.
+* *What*
+    * *Dim_Prestasi*: digunakan untuk menjelaskan prestasi apa yang diraih oleh mahasiswa.
+* *Where*
+    * *Dim_ProgramStudi*: digunakan untuk menjelaskan program studi mana yang sedang dianalisis.
+* *When*
+    * *Dim_Waktu*: digunakan untuk menjelaskan kapan suatu prestasi, anggaran atau akreditasi terjadi.
+* *Why*
+    * *Dim_Anggaran*: digunakan untuk menjelaskan anggaran apa yang sedang dianalisis.
+* *How*
+    * *Dim_Akreditasi*: digunakan untuk menjelaskan status akreditasi prodi sebagai indikator kualitas institusi.
+
+*Atribut deskriptif untuk filtering dan grouping*
+
+* *Dim_Mahasiswa*
+    * Nama_mahasiswa
+    * Jenis_kelamin
+    * Angkatan
+    * Status
+    * Id_prodi
+    * *Filtering*: per jenis kelamin, per angkatan, per status mahasiswa.
+    * *Grouping*: jumlah mahasiswa per prodi, per angkatan.
+* *Dim_Prestasi*
+    * Nama_prestasi
+    * Jenis_prestasi
+    * Tingkat
+    * Penyelenggara
+    * *Filtering*: prestasi tingkat nasional/internasional, jenis lomba.
+    * *Grouping*: prestasi berdasarkan jenis atau tingkat.
+* *Dim_ProgramStudi*
+    * Nama_prodi
+    * Jenjang
+    * Fakultas
+    * *Filtering*: Prodi tertentu, Jenjang S1, Fakultas.
+    * *Grouping*: total prestasi per fakultas, total anggaran per prodi.
+* *Dim_Waktu*
+    * Tahun
+    * Semester
+    * Bulan
+    * Tanggal
+    * *Filtering*: per tahun, per semester.
+    * *Grouping*: total prestasi per tahun, total anggaran per bulan.
+* *Dim_Anggaran*
+    * Keterangan
+    * *Filtering*: jenis anggaran tertentu.
+    * *Grouping*: penggunaan anggaran berdasarkan kategori.
+* *Dim_Dosen*
+    * Status_kepegawaian
+    * Jabatan_fungsional
+    * Nama_dosen / NIDN
+    * *Filtering* : memilih dosen berdasarkan status kepegawaian (Tetap, Kontrak), jabatan fungsional (Asisten Ahli, Lektor, dst.), atau prodi tertentu.
+    * *Grouping* : mengelompokkan dosen per jabatan fungsional, per status kepegawaian, atau per program studi untuk analisis beban mengajar, rasio dosen–mahasiswa, atau distribusi dosen.
+* *Dim_Akreditasi*
+    * Status_akreditasi
+    * Nilai_akreditasi
+    * Lembaga
+    * *Filtering*: prodi dengan akreditasi tertentu.
+    * *Grouping*: status akreditasi per fakultas atau per tahun melalui fact.
+
+*Hierarki dalam dimensi (untuk drill-down/roll-up)*
+
+* *Dim_Waktu*
+    * Drill-down : Tahun → Semester tertentu → Bulan tertentu → Aktivitas pada tanggal tertentu.
+* *Dim_ProgramStudi*
+    * Drill-down : Fakultas → Prodi → (menganalisis prestasi/anggaran untuk prodi tersebut)
+* *Dim_Prestasi*
+    * Jenis (Akademik/Non-Akademik) → Tingkat (Lokal/Nasional/Internasional) → Nama Lomba.
+* *Dim_Mahasiswa*
+    * Angkatan → Status (aktif/cuti) → individu mahasiswa.
+* *Dim_Anggaran*
+    * Tidak memiliki hirarki yang jelas, tetapi bisa dimodelkan:
+    * Kategori Anggaran → Jenis Anggaran (keterangan).
+* Dim_Dosen
+    * Status Kepegawaian → Jabatan Fungsional → Dosen (NIDN)
+* *Dim_Akreditasi*
+    * Drill-down : Lembaga (BAN-PT) → Status (Unggul/A/B) → Nilai.
+
+### Desain Star/Snowflake Schema
+
+
+### Penentuan Surrogate Keys
+
+* *Dim_ProgramStudi*
+    * Natural key : id_prodi
+    * Surrogate key : sk_prodi
+* *Dim_Mahasiswa*
+    * Natural Key : NIM
+    * Surrogate Key : sk_mahasiswa
+* *Dim_Dosen*
+    * Natural Key : NIDN
+    * Surrogate Key : sk_dosen
+* *Dim_Waktu*
+    * Natural Key : id_waktu
+    * Surrogate Key : sk_waktu
+* *Dim_Prestasi*
+    * Natural Key : id_Prestasi
+    * Surrogate Key : sk_prestasi
+* *Dim_Anggaran*
+    * Natural Key : id_anggaran
+    * Surrogate Key : sk_anggaran
+* *Dim_Akreditasi*
+    * Natural key: id_akreditasi
+    * Surrogate key: sk_akreditasi
+
+* *Fact_Prestasi*
+    * sk_prestasi
+    * sk_mahasiswa
+    * sk_prodi
+    * sk_waktu
+* *Fact_Anggaran*
+    * sk_anggaran
+    * sk_prodi
+    * sk_waktu
+* *Fact_Akreditasi*
+    * sk_akreditasi
+    * sk_prodi
+    * sk_waktu
+* *Fact_Akademik*
+    * sk_akademik
+    * sk_mahasiswa
+    * sk_matakuliah
+    * sk_prodi
+    * sk_waktu
+ * *Fact_Dosen*
+    * sk_dosen
+    * sk_prodi
+    * sk_waktu
+    * sk_matakuliah
+
+---
