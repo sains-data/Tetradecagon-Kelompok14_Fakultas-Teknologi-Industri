@@ -1,3 +1,11 @@
+📊 Tugas Besar Pergudangan Data (SD25-31007)
+Logo Tugas Besar Data Warehouse Gasal 2025
+
+Institut Teknologi Sumatera – Program Studi Sains Data
+Mata Kuliah: Pergudangan Data (3 SKS)
+Tahun Ajaran: 2025
+Bobot Tugas Besar: 30% dari nilai akhir
+
 # Tetradecagon-Kelompok14_Fakultas-Teknologi-Industri
 Tugas Besar Data Warehouse
 # Data Mart Fakultas Teknologi Industri (FTI)
