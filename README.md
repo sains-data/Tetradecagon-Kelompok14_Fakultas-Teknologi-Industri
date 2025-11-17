@@ -7,10 +7,10 @@ Brief description of the data mart, its purpose, and business value.
 | NIM | Name | Role | Email |
 |-----|------|------|-------|
 | 123450115 | Muhammad Fadil Alfaizi | Project Lead & Database Designer |
-email@example.com |
-| 122450108 | Andre Hadiman Rotua Parhusip | ETL Developer | email@example.com |
-| 123450008 | Nabyla Sharfina | BI Developer | email@example.com |
-| 123450069 | Arini Puteri Elandra | Documentation & QA | email@example.com |
+fadil.123450115@student.itera.ac.id |
+| 122450108 | Andre Hadiman Rotua Parhusip | ETL Developer | andre.122450108@student.itera.ac.id |
+| 123450008 | Nabyla Sharfina | BI Developer | nabyla.123450008@student.itera.ac.id |
+| 123450069 | Arini Puteri Elandra | Documentation & QA | arini.123450069@student.itera.ac.id |
 
 ## *Business Domain*
 Description of the unit/department being analyzed:
