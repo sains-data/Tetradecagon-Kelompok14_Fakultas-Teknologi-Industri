@@ -1,29 +1,39 @@
-# Tetradecagon-Kelompok14_Fakultas-Teknologi-Industri
-Tugas Besar Data Warehouse
-# Data Mart Fakultas Teknologi Industri (FTI)
+# *Data Mart Fakultas Teknologi Industri (FTI) - Institut Teknologi Sumatera*
 
-## Deskripsi Proyek
-Proyek ini bertujuan membangun data mart untuk mendukung analitik akademik,
-keuangan, dan evaluasi kinerja di Fakultas Teknologi Industri.
+## *Project Overview*
+Brief description of the data mart, its purpose, and business value.
 
-## Arsitektur
-- Pendekatan: Kimball (Dimensional Modeling)
-- Platform: SQL Server on Azure VM
-- ETL: SSIS
+## *Team Members*
+| NIM | Name | Role | Email |
+|-----|------|------|-------|
+| 123450115 | Muhammad Fadil Alfaizi | Project Lead & Database Designer |
+email@example.com |
+| 122450108 | Andre Hadiman Rotua Parhusip | ETL Developer | email@example.com |
+| 123450008 | Nabyla Sharfina | BI Developer | email@example.com |
+| 123450069 | Arini Puteri Elandra | Documentation & QA | email@example.com |
 
-## Fact Tables
-- Fact_Prestasi
-- Fact_Anggaran
-- Fact_Akreditasi
+## *Business Domain*
+Description of the unit/department being analyzed:
+- Key business processes
+- Stakeholders
+- Decision-making needs
 
-## Dimension Tables
-- Dim_Mahasiswa
-- Dim_ProgramStudi
-- Dim_Prestasi
-- Dim_Anggaran
-- Dim_Akreditasi
-- Dim_Waktu
+## *Objectives*
+1. Objective 1
+2. Objective 2
+3. Objective 3
 
-## Dokumentasi
-- /docs/01-requirements
-- /docs/02-design
+## *Key Performance Indicators (KPIs)*
+- KPI 1: Description
+- KPI 2: Description
+- KPI 3: Description
+
+## *Architecture*
+- **Approach**: Kimball Dimensional Modeling
+- **Database**: SQL Server 2019 on Azure VM
+- **ETL**: SQL Server Integration Services (SSIS)
+- **Visualization**: Power BI Desktop
+- **Version Control**: Git
+
+### Data Model
+![Dimensional Model]
