@@ -1,2 +1,2 @@
-# Tetradecon-Kelompok14_Fakultas-Teknologi-Industri
+# Tetradecagon-Kelompok14_Fakultas-Teknologi-Industri
 Tugas Besar Data Warehouse
