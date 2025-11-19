@@ -433,3 +433,136 @@ Nama Anggota Kelompok:
     * sk_matakuliah
 
 ---
+## Step 5: Data Dictionary
+
+**Tujuan:** Mendokumentasikan seluruh elemen data pada tabel dimensi dan fakta secara jelas dan konsisten sehingga memudahkan proses implementasi fisikal, ETL, dan analisis.
+
+### Dimensi
+
+**Dim_ProgramStudi**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_prodi | INT | PK | Surrogate key untuk program studi |
+| id_prodi | VARCHAR(10) | NK | Natural key prodi dari sistem operasional |
+| nama_prodi | VARCHAR(100) | | Nama program studi |
+| jenjang | VARCHAR(10) | | Jenjang pendidikan (S1) |
+| fakultas | VARCHAR(50) | | Nama fakultas (FTI) |
+| created_date | DATETIME | | Waktu record dibuat |
+| updated_date | DATETIME | | Waktu record diperbarui |
+
+**Dim_Mahasiswa**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_mahasiswa | INT | PK | Surrogate key untuk mahasiswa |
+| nim | VARCHAR(20) | NK | Nomor Induk Mahasiswa |
+| nama_mahasiswa | VARCHAR(100) | | Nama Lengkap Mahasiswa |
+| jenis_kelamin | CHAR(1) | | L/F |
+| angkatan | INT | | Tahun masuk mahasiswa |
+| status | VARCHAR(20) | | "Aktif, Cuti, Lulus, DO" |
+| sk_prodi | INT | FK | Menghubungkan mahasiswa dengan program studi |
+| created_date | DATETIME | | Timestamp record |
+| updated_date | DATETIME | | Updated timestamp |
+
+**Dim_Waktu**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_waktu | INT | PK | Surrogate key tanggal |
+| tanggal | DATE | NK | Tanggal |
+| tahun | INT | | Tahun |
+| semester | VARCHAR(10) | | Genap/Ganjil |
+| bulan | INT | | Bulan (1-12) |
+| nama_bulan | VARCHAR(10) | | Januari-Desember |
+
+**Dim_Prestasi**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_prestasi | INT | PK | Surrogate key prestasi |
+| id_prestasi | VARCHAR(20) | NK | ID prestasi dari input operasional |
+| nama_prestasi | VARCHAR(100) | | Nama lomba |
+| jenis_prestasi | VARCHAR(30) | | Akademik/Non-akademik |
+| tingkat | VARCHAR(30) | | Lokal/Nasional/Internasional |
+| created_date | DATETIME | | Timestamp |
+
+**Dim_Anggaran**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_anggaran | INT | PK | Surrogate key prestasi |
+| id_anggaran | VARCHAR(20) | NK | Natural key anggaran |
+| kategori_anggaran | VARCHAR(50) | | Penelitian/Operasional/Hibah |
+| keterangan | VARCHAR(200) | | Deskripsi tambahan |
+| created_date | DATETIME | | Timestamp |
+
+**Dim_Akreditasi**
+
+| Column | Date Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_akreditasi | INT | PK | Surrogate key akreditasi |
+| id_akreditasi | VARCHAR(20) | NK | Natural key akreditasi |
+| status_akreditasi | VARCHAR(20) | | "Unggul, A, Baik" |
+| nilai_akreditasi | "DECIMAL(3,2)" | | Skor penilaian lembaga |
+| lembaga | VARCHAR(20) | | BAN-PT / LAM Teknik |
+| created_date | DATETIME | | Timestamp |
+
+### Tabel Fakta
+
+**Fact_Prestasi**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk-prestasi | INT | FK | Link ke Dim_Prestasi |
+| sk_mahasiswa | INT | FK | Link ke Dim_Mahasiswa |
+| sk_prodi | INT | FK | Lim ke Dim_Prodi |
+| sk_waktu | INT | FK | Link ke Dim_Waktu |
+| jumlah_prestasi | INT | Measure | Default = 1 |
+| created_date | created_date | | Timestamp |
+
+**Fact Anggaran**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_anggaran | INT | FK | Link ke Dim_Anggaran |
+| sk_prodi | INT | FK | Link ke Dim_Prodi |
+| sk_waktu | INT | FK | Link ke Dim_Prodi |
+| total_anggaran | "DECIMAL(18,2)" | Measure | Nominal Dana |
+| created_date | DATETIME | | Timestamp |
+
+**Fact Akreditasi**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_akreditasi | INT | FK | Link ke Dim_Akreditasi |
+| sk_prodi | INT | FK | Link ke Dim_Prodi |
+| sk_waktu | INT | FK | Link ke Dim_Waktu |
+| jumlah_akreditasi | INT | Measure | Default = 1 |
+| created_date | DATETIME | | Timestamp |
+
+**Fact Akademik**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_akreditasi | INT | FK | Link ke Dim_Akreditasi |
+| sk_prodi | INT | FK | Link ke Dim_Prodi |
+| sk_waktu | INT | FK | Link ke Dim_Waktu |
+| jumlah_akreditasi | INT | Measure | Default = 1 |
+| created_date | DATETIME | | Timestamp |
+
+**Fact Dosen**
+
+| Column | Data Type | PK/FK | Deskripsi |
+| :--- | :--- | :--- | :--- |
+| sk_akreditasi | INT | FK | Link ke Dim_Akreditasi |
+| sk_prodi | INT | FK | Link ke Dim_Prodi |
+| sk_waktu | INT | FK | Link ke Dim_Waktu |
+| jumlah_akreditasi | INT | Measure | Default = 1 |
+| created_date | DATETIME | | Timestamp |
+
+---
+
+## Step 6: GitHub Repository Setup
+
+**Tujuan:** Menyiapkan repositori GitHub untuk kolaborasi tim, dokumentasi, pengelolaan versi, penyimpanan desain, dan kode implementasi.
