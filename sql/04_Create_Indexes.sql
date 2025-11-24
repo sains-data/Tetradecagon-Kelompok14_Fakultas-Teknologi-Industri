@@ -1,3 +1,4 @@
+
 -- Clustered Index for Fact_Prestasi (grain: mahasiswa–prestasi–waktu–prodi)
 CREATE CLUSTERED INDEX CIX_Fact_Prestasi
 ON dbo.Fact_Prestasi (sk_mahasiswa, sk_prestasi, sk_waktu, sk_prodi);
@@ -16,9 +17,8 @@ ON dbo.Fact_Akademik (sk_prodi, sk_waktu);
 GO
 
 CREATE CLUSTERED INDEX CIX_Fact_Dosen
-ON dbo.Fact_Dosen (sk_prodi, sk_waktu, sk_dosen);
+ON dbo.Fact_Dosen (sk_prodi, sk_waktu);
 GO
-
 ------------------------------------------------------------
 -- Index untuk Foreign Keys pada Fact_Prestasi (join optimization)
 ------------------------------------------------------------
@@ -73,9 +73,6 @@ ON dbo.Fact_Dosen (sk_waktu);
 
 CREATE NONCLUSTERED INDEX IX_Fact_Dosen_sk_prodi
 ON dbo.Fact_Dosen (sk_prodi);
-
-CREATE NONCLUSTERED INDEX IX_Fact_Dosen_sk_dosen
-ON dbo.Fact_Dosen (sk_dosen);
 GO
 
 
@@ -83,8 +80,7 @@ GO
 -- Covering index untuk common queries (Prestasi per Prodi per Waktu)
 ------------------------------------------------------------
 CREATE NONCLUSTERED INDEX IX_Covering_Prestasi_Prodi_Waktu
-ON dbo.Fact_Prestasi (sk_waktu, sk_prodi)
-INCLUDE (jumlah_prestasi);
+ON dbo.Fact_Prestasi (sk_waktu, sk_prodi);
 GO
 
 ------------------------------------------------------------
@@ -99,8 +95,7 @@ GO
 -- Covering index untuk laporan Akreditasi per Prodi per Tahun
 ------------------------------------------------------------
 CREATE NONCLUSTERED INDEX IX_Covering_Akreditasi_Prodi_Waktu
-ON dbo.Fact_Akreditasi (sk_waktu, sk_prodi)
-INCLUDE (jumlah_akreditasi);
+ON dbo.Fact_Akreditasi (sk_waktu, sk_prodi);
 GO
 
 ------------------------------------------------------------
@@ -110,15 +105,13 @@ CREATE NONCLUSTERED INDEX IX_Covering_Dosen_Prodi_Waktu
 ON dbo.Fact_Dosen (sk_waktu, sk_prodi)
 INCLUDE (jumlah_dosen, jumlah_mahasiswa, rasio_dosen_mahasiswa);
 GO
-
 -- Columnstore index untuk analisis prestasi mahasiswa
 CREATE NONCLUSTERED COLUMNSTORE INDEX CS_Fact_Prestasi
 ON dbo.Fact_Prestasi
 (
     sk_waktu,
     sk_prodi,
-    sk_mahasiswa,
-    jumlah_prestasi
+    sk_mahasiswa
 );
 GO
 
@@ -137,8 +130,7 @@ CREATE NONCLUSTERED COLUMNSTORE INDEX CS_Fact_Akreditasi
 ON dbo.Fact_Akreditasi
 (
     sk_waktu,
-    sk_prodi,
-    jumlah_akreditasi
+    sk_prodi
 );
 GO
 
@@ -164,3 +156,4 @@ ON dbo.Fact_Dosen
     rasio_dosen_mahasiswa
 );
 GO
+
