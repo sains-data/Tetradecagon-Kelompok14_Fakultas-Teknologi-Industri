@@ -18,12 +18,8 @@ CREATE TABLE stg.Prestasi (
     source_file VARCHAR(255),
     id_prestasi VARCHAR(50),
     nim VARCHAR(20),
-    nama_prestasi VARCHAR(200),
-    jenis_prestasi VARCHAR(50),
-    tingkat VARCHAR(50),
-    penyelenggara VARCHAR(150),
-    tanggal_prestasi DATE,
     kode_prodi VARCHAR(20),
+    tanggal_prestasi DATE,
     extract_ts DATETIME DEFAULT GETDATE(),
     row_hash BINARY(16)
 );
@@ -33,7 +29,6 @@ CREATE TABLE stg.Anggaran (
     source_file VARCHAR(255),
     id_anggaran VARCHAR(50),
     kode_prodi VARCHAR(20),
-    jenis_anggaran VARCHAR(100),
     total_anggaran DECIMAL(18,2),
     tahun INT,
     extract_ts DATETIME DEFAULT GETDATE(),
@@ -44,7 +39,7 @@ GO
 CREATE TABLE stg.Akreditasi (
     source_file VARCHAR(255),
     id_akreditasi VARCHAR(50),
-    kode_prodi VARCHAR(20),
+    id_prodi VARCHAR(20),
     status_akreditasi VARCHAR(50),
     nilai_akreditasi DECIMAL(3,2),
     lembaga VARCHAR(100),
@@ -65,12 +60,26 @@ CREATE TABLE stg.ProgramStudi (
 );
 GO
 
-CREATE TABLE stg.Waktu (
+CREATE TABLE stg.Dosen (
     source_file VARCHAR(255),
-    tanggal DATE,
+    nidn VARCHAR(20),
+    nama_dosen VARCHAR(200),
+    kode_prodi VARCHAR(20),
     tahun INT,
-    semester VARCHAR(10),
-    bulan INT,
+    jumlah_mahasiswa INT,
+    jumlah_dosen INT,
+    rasio_dosen_mahasiswa DECIMAL(6,3),
+    extract_ts DATETIME DEFAULT GETDATE(),
+    row_hash BINARY(16)
+);
+GO
+
+CREATE TABLE stg.Akademik (
+    source_file VARCHAR(255),
+    kode_prodi VARCHAR(20),
+    tahun INT,
+    jumlah_mahasiswa_baru INT,
+    rata_rata_ipk DECIMAL(4,2),
     extract_ts DATETIME DEFAULT GETDATE(),
     row_hash BINARY(16)
 );
