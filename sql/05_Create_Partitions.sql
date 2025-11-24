@@ -25,7 +25,7 @@ CREATE TABLE dbo.Fact_Prestasi_Partitioned
     sk_mahasiswa INT NOT NULL,
     sk_prodi INT NOT NULL,
     sk_waktu INT NOT NULL,
-    umlah_prestasi INT NOT NULL DEFAULT 1,
+
     created_date DATETIME DEFAULT GETDATE(),
 
     FOREIGN KEY (sk_prestasi) REFERENCES dbo.Dim_Prestasi(sk_prestasi),
@@ -58,7 +58,6 @@ CREATE TABLE dbo.Fact_Akreditasi_Partitioned
     sk_prodi INT NOT NULL,
     sk_waktu INT NOT NULL,
 
-    jumlah_akreditasi INT NOT NULL DEFAULT 1,
     created_date DATETIME DEFAULT GETDATE(),
 
     FOREIGN KEY (sk_akreditasi) REFERENCES dbo.Dim_Akreditasi(sk_akreditasi),
@@ -85,7 +84,6 @@ GO
 
 CREATE TABLE dbo.Fact_Dosen_Partitioned
 (
-    sk_dosen INT NOT NULL,
     sk_prodi INT NOT NULL,
     sk_waktu INT NOT NULL,
 
@@ -94,9 +92,9 @@ CREATE TABLE dbo.Fact_Dosen_Partitioned
     rasio_dosen_mahasiswa DECIMAL(6,3),
     created_date DATETIME DEFAULT GETDATE(),
 
-    FOREIGN KEY (sk_dosen) REFERENCES dbo.Dim_Dosen(sk_dosen),
     FOREIGN KEY (sk_prodi) REFERENCES dbo.Dim_ProgramStudi(sk_prodi),
     FOREIGN KEY (sk_waktu) REFERENCES dbo.Dim_Waktu(sk_waktu)
 )
 ON PS_AcademicYear(sk_waktu);
 GO
+
