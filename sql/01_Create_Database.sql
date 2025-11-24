@@ -1,12 +1,15 @@
--- Create Database
+-- ===========================================
+-- 01 - CREATE DATABASE FOR DATA MART FTI
+-- ===========================================
+
 CREATE DATABASE DM_FTI_DW
 ON PRIMARY
 (
     NAME = N'DM_FTI_DW_Data',
     FILENAME = N'D:\DataWarehouse\DM_FTI_DW_Data.mdf',
-    SIZE = 1GB,
+    SIZE = 512MB,
     MAXSIZE = UNLIMITED,
-    FILEGROWTH = 256MB
+    FILEGROWTH = 128MB
 )
 LOG ON
 (
