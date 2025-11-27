@@ -39,7 +39,11 @@ BEGIN
             tgt.jenis_kelamin = src.jenis_kelamin,
             tgt.angkatan = src.angkatan,
             tgt.status = src.status,
-            tgt.sk_prodi = (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = src.kode_prodi),
+            tgt.sk_prodi = (
+    SELECT sk_prodi 
+    FROM dbo.Dim_ProgramStudi 
+    WHERE LTRIM(RTRIM(id_prodi)) = LTRIM(RTRIM(src.kode_prodi))
+),
             tgt.updated_date = GETDATE()
     WHEN NOT MATCHED THEN
         INSERT (nim, nama_mahasiswa, jenis_kelamin, angkatan, status, sk_prodi, created_date, updated_date)
@@ -113,7 +117,11 @@ BEGIN
     WHEN MATCHED THEN
         UPDATE SET
             tgt.nama_dosen = src.nama_dosen,
-            tgt.sk_prodi = (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = src.kode_prodi),
+            tgt.sk_prodi = (
+    SELECT sk_prodi 
+    FROM dbo.Dim_ProgramStudi 
+    WHERE LTRIM(RTRIM(id_prodi)) = LTRIM(RTRIM(src.kode_prodi))
+),
             tgt.updated_date = GETDATE()
     WHEN NOT MATCHED THEN
         INSERT (nidn, nama_dosen, sk_prodi, created_date, updated_date)
