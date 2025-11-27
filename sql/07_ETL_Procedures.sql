@@ -2,12 +2,13 @@ CREATE OR ALTER PROCEDURE etl.Load_Dim_ProgramStudi
 AS
 BEGIN
     SET NOCOUNT ON;
+
     MERGE dbo.Dim_ProgramStudi AS tgt
     USING (
         SELECT DISTINCT id_prodi, nama_prodi, jenjang, fakultas
         FROM stg.ProgramStudi
     ) AS src
-    ON tgt.id_prodi = TRY_CAST(src.id_prodi AS INT)
+    ON tgt.id_prodi = src.id_prodi
     WHEN MATCHED THEN
         UPDATE SET
             tgt.nama_prodi = src.nama_prodi,
@@ -16,14 +17,16 @@ BEGIN
             tgt.updated_date = GETDATE()
     WHEN NOT MATCHED THEN
         INSERT (id_prodi, nama_prodi, jenjang, fakultas, created_date, updated_date)
-        VALUES (TRY_CAST(src.id_prodi AS INT), src.nama_prodi, src.jenjang, src.fakultas, GETDATE(), GETDATE());
+        VALUES (src.id_prodi, src.nama_prodi, src.jenjang, src.fakultas, GETDATE(), GETDATE());
 END;
 GO
+
 
 CREATE OR ALTER PROCEDURE etl.Load_Dim_Mahasiswa
 AS
 BEGIN
     SET NOCOUNT ON;
+
     MERGE dbo.Dim_Mahasiswa AS tgt
     USING (
         SELECT nim, nama_mahasiswa, jenis_kelamin, angkatan, status, kode_prodi
@@ -36,21 +39,18 @@ BEGIN
             tgt.jenis_kelamin = src.jenis_kelamin,
             tgt.angkatan = src.angkatan,
             tgt.status = src.status,
-            tgt.sk_prodi = (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = TRY_CAST(src.kode_prodi AS INT)),
+            tgt.sk_prodi = (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = src.kode_prodi),
             tgt.updated_date = GETDATE()
     WHEN NOT MATCHED THEN
         INSERT (nim, nama_mahasiswa, jenis_kelamin, angkatan, status, sk_prodi, created_date, updated_date)
         VALUES (
-            src.nim,
-            src.nama_mahasiswa,
-            src.jenis_kelamin,
-            src.angkatan,
-            src.status,
-            (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = TRY_CAST(src.kode_prodi AS INT)),
+            src.nim, src.nama_mahasiswa, src.jenis_kelamin, src.angkatan, src.status,
+            (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = src.kode_prodi),
             GETDATE(), GETDATE()
         );
 END;
 GO
+
 
 CREATE OR ALTER PROCEDURE etl.Load_Dim_Prestasi
 AS
@@ -103,25 +103,28 @@ CREATE OR ALTER PROCEDURE etl.Load_Dim_Dosen
 AS
 BEGIN
     SET NOCOUNT ON;
+
     MERGE dbo.Dim_Dosen AS tgt
     USING (
-        SELECT DISTINCT nidn, nama_dosen, kode_prodi FROM stg.Dosen
+        SELECT DISTINCT nidn, nama_dosen, kode_prodi
+        FROM stg.Dosen
     ) AS src
     ON tgt.nidn = src.nidn
     WHEN MATCHED THEN
         UPDATE SET
             tgt.nama_dosen = src.nama_dosen,
-            tgt.sk_prodi = (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = TRY_CAST(src.kode_prodi AS INT)),
+            tgt.sk_prodi = (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = src.kode_prodi),
             tgt.updated_date = GETDATE()
     WHEN NOT MATCHED THEN
         INSERT (nidn, nama_dosen, sk_prodi, created_date, updated_date)
         VALUES (
             src.nidn, src.nama_dosen,
-            (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = TRY_CAST(src.kode_prodi AS INT)),
+            (SELECT sk_prodi FROM dbo.Dim_ProgramStudi WHERE id_prodi = src.kode_prodi),
             GETDATE(), GETDATE()
         );
 END;
 GO
+
 
 CREATE OR ALTER PROCEDURE etl.Load_Dim_Waktu
 AS
@@ -166,7 +169,7 @@ BEGIN
     FROM stg.Prestasi s
     LEFT JOIN dbo.Dim_Prestasi dp ON dp.id_prestasi = s.id_prestasi
     LEFT JOIN dbo.Dim_Mahasiswa dm ON dm.nim = s.nim
-    LEFT JOIN dbo.Dim_ProgramStudi pr ON pr.id_prodi = TRY_CAST(s.kode_prodi AS INT)
+    LEFT JOIN dbo.Dim_ProgramStudi pr ON pr.id_prodi = s.kode_prodi
     LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = YEAR(s.tanggal_prestasi)
     WHERE dp.sk_prestasi IS NOT NULL
       AND dm.sk_mahasiswa IS NOT NULL
@@ -189,7 +192,7 @@ BEGIN
         GETDATE()
     FROM stg.Anggaran s
     LEFT JOIN dbo.Dim_Anggaran da ON da.id_anggaran = s.id_anggaran
-    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = TRY_CAST(s.kode_prodi AS INT)
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.kode_prodi
     LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
     WHERE da.sk_anggaran IS NOT NULL
       AND dp.sk_prodi IS NOT NULL
@@ -210,7 +213,7 @@ BEGIN
         GETDATE()
     FROM stg.Akreditasi s
     LEFT JOIN dbo.Dim_Akreditasi dak ON dak.id_akreditasi = s.id_akreditasi
-    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = TRY_CAST(s.id_prodi AS INT)
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.kode_prodi
     LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
     WHERE dak.sk_akreditasi IS NOT NULL
       AND dp.sk_prodi IS NOT NULL
@@ -231,7 +234,7 @@ BEGIN
         s.rata_rata_ipk,
         GETDATE()
     FROM stg.Akademik s
-    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = TRY_CAST(s.kode_prodi AS INT)
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.kode_prodi
     LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
     WHERE dp.sk_prodi IS NOT NULL
       AND dw.sk_waktu IS NOT NULL;
@@ -252,7 +255,7 @@ BEGIN
         s.rasio_dosen_mahasiswa,
         GETDATE()
     FROM stg.Dosen s
-    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = TRY_CAST(s.kode_prodi AS INT)
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.kode_prodi
     LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
     WHERE dp.sk_prodi IS NOT NULL
       AND dw.sk_waktu IS NOT NULL;
