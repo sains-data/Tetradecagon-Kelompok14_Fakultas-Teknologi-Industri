@@ -34,11 +34,6 @@ GO
 ------------------------------------------------------------
 -- SCD TYPE-2 Enhanced Load_Dim_Mahasiswa
 ------------------------------------------------------------
-ALTER TABLE dbo.Dim_Mahasiswa
-ADD is_current BIT DEFAULT 1,
-    valid_from DATETIME DEFAULT GETDATE(),
-    valid_to DATETIME NULL;
-GO
 
 CREATE OR ALTER PROCEDURE etl.Load_Dim_Mahasiswa
 AS
@@ -172,4 +167,137 @@ BEGIN
 END;
 GO
 
----------------------------
+------------------------------------------------------------
+-- Load_Dim_Waktu (Full Calendar)
+------------------------------------------------------------
+CREATE OR ALTER PROCEDURE etl.Load_Dim_Waktu
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @Start DATE = '2020-01-01', @End DATE = '2025-12-31';
+
+    ;WITH Calendar AS (
+        SELECT @Start AS dt
+        UNION ALL
+        SELECT DATEADD(DAY,1,dt)
+        FROM Calendar
+        WHERE dt < @End
+    )
+    INSERT INTO dbo.Dim_Waktu (sk_waktu, tanggal, tahun, semester, bulan, nama_bulan)
+    SELECT
+        CONVERT(INT, FORMAT(dt,'yyyyMMdd')),
+        dt,
+        YEAR(dt),
+        CASE WHEN MONTH(dt)<=6 THEN 'Genap' ELSE 'Ganjil' END,
+        MONTH(dt),
+        DATENAME(MONTH,dt)
+    FROM Calendar
+    WHERE NOT EXISTS (SELECT 1 FROM dbo.Dim_Waktu w WHERE w.tanggal = dt)
+    OPTION (MAXRECURSION 6000);
+END;
+GO
+
+------------------------------------------------------------
+-- FACT LOADS (unchanged, compatible)
+------------------------------------------------------------
+
+CREATE OR ALTER PROCEDURE etl.Load_Fact_Prestasi
+AS
+BEGIN
+    INSERT INTO dbo.Fact_Prestasi (sk_prestasi, sk_mahasiswa, sk_prodi, sk_waktu, created_date)
+    SELECT dp.sk_prestasi, dm.sk_mahasiswa, pr.sk_prodi, dw.sk_waktu, GETDATE()
+    FROM stg.Prestasi s
+    LEFT JOIN dbo.Dim_Prestasi dp ON dp.id_prestasi = s.id_prestasi
+    LEFT JOIN dbo.Dim_Mahasiswa dm ON dm.nim = s.nim AND dm.is_current = 1
+    LEFT JOIN dbo.Dim_ProgramStudi pr ON pr.id_prodi = s.kode_prodi
+    LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = YEAR(s.tanggal_prestasi)
+    WHERE dp.sk_prestasi IS NOT NULL AND dm.sk_mahasiswa IS NOT NULL AND pr.sk_prodi IS NOT NULL AND dw.sk_waktu IS NOT NULL;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE etl.Load_Fact_Anggaran
+AS
+BEGIN
+    INSERT INTO dbo.Fact_Anggaran (sk_anggaran, sk_prodi, sk_waktu, total_anggaran, created_date)
+    SELECT da.sk_anggaran, dp.sk_prodi, dw.sk_waktu, s.total_anggaran, GETDATE()
+    FROM stg.Anggaran s
+    LEFT JOIN dbo.Dim_Anggaran da ON da.id_anggaran = s.id_anggaran
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.kode_prodi
+    LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
+    WHERE da.sk_anggaran IS NOT NULL AND dp.sk_prodi IS NOT NULL AND dw.sk_waktu IS NOT NULL;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE etl.Load_Fact_Akreditasi
+AS
+BEGIN
+    INSERT INTO dbo.Fact_Akreditasi (sk_akreditasi, sk_prodi, sk_waktu, created_date)
+    SELECT dak.sk_akreditasi, dp.sk_prodi, dw.sk_waktu, GETDATE()
+    FROM stg.Akreditasi s
+    LEFT JOIN dbo.Dim_Akreditasi dak ON dak.id_akreditasi = s.id_akreditasi
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.id_prodi
+    LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
+    WHERE dak.sk_akreditasi IS NOT NULL AND dp.sk_prodi IS NOT NULL AND dw.sk_waktu IS NOT NULL;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE etl.Load_Fact_Akademik
+AS
+BEGIN
+    INSERT INTO dbo.Fact_Akademik (sk_prodi, sk_waktu, jumlah_mahasiswa_baru, rata_rata_ipk, created_date)
+    SELECT dp.sk_prodi, dw.sk_waktu, s.jumlah_mahasiswa_baru, s.rata_rata_ipk, GETDATE()
+    FROM stg.Akademik s
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.kode_prodi
+    LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
+    WHERE dp.sk_prodi IS NOT NULL AND dw.sk_waktu IS NOT NULL;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE etl.Load_Fact_Dosen
+AS
+BEGIN
+    INSERT INTO dbo.Fact_Dosen (sk_prodi, sk_waktu, jumlah_dosen, jumlah_mahasiswa, rasio_dosen_mahasiswa, created_date)
+    SELECT dp.sk_prodi, dw.sk_waktu, s.jumlah_dosen, s.jumlah_mahasiswa, s.rasio_dosen_mahasiswa, GETDATE()
+    FROM stg.Dosen s
+    LEFT JOIN dbo.Dim_ProgramStudi dp ON dp.id_prodi = s.kode_prodi
+    LEFT JOIN dbo.Dim_Waktu dw ON dw.tahun = s.tahun
+    WHERE dp.sk_prodi IS NOT NULL AND dw.sk_waktu IS NOT NULL;
+END;
+GO
+
+------------------------------------------------------------
+-- MASTER ETL
+------------------------------------------------------------
+CREATE OR ALTER PROCEDURE etl.usp_Master_ETL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRAN;
+
+        EXEC etl.Load_Dim_ProgramStudi;
+        EXEC etl.Load_Dim_Mahasiswa;
+        EXEC etl.Load_Dim_Prestasi;
+        EXEC etl.Load_Dim_Anggaran;
+        EXEC etl.Load_Dim_Akreditasi;
+        EXEC etl.Load_Dim_Dosen;
+        EXEC etl.Load_Dim_Waktu;
+
+        EXEC etl.Load_Fact_Prestasi;
+        EXEC etl.Load_Fact_Anggaran;
+        EXEC etl.Load_Fact_Akreditasi;
+        EXEC etl.Load_Fact_Akademik;
+        EXEC etl.Load_Fact_Dosen;
+
+        COMMIT TRAN;
+    END TRY
+    BEGIN CATCH
+        ROLLBACK TRAN;
+
+        DECLARE @ErrMsg NVARCHAR(2000) = ERROR_MESSAGE();
+        RAISERROR(@ErrMsg, 16, 1);
+    END CATCH;
+END;
+GO
