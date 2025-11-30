@@ -84,44 +84,44 @@ Semua dokumentasi, skrip SQL, dan paket ETL diorganisasi dalam struktur folder b
 FTI-DataMart
 │
 ├── docs
-│   ├── Laporan_Misi2.pdf
-│   ├── Dimensional_Model.png
-│   ├── Physical_Design.png
-│   ├── ETL_Architecture.png
-│   └── Data_Quality_Checks_Overview.md
+│ ├── Laporan_Misi2.pdf
+│ ├── Dimensional_Model.png
+│ ├── Physical_Design.png
+│ ├── ETL_Architecture.png
+│ └── Data_Quality_Checks_Overview.md
 │
 ├── sql
-│   ├── database
-│   │   └── 01_Create_Database.sql
-│   ├── dimensions
-│   │   └── 02_Create_Dimension_Tables.sql
-│   ├── facts
-│   │   └── 03_Create_Fact_Tables.sql
-│   ├── indexing
-│   │   └── 04_Indexing_Strategy.sql
-│   ├── columnstore
-│   │   └── 05_Columnstore_Indexes.sql
-│   ├── partitioning
-│   │   └── 06_Partitioning_Strategy.sql
-│   ├── staging
-│   │   └── 07_Staging_Tables.sql
-│   ├── etl_merge
-│   │   └── 08_ETL_Merge_Scripts.sql
-│   ├── etl_facts
-│   │   └── 09_ETL_Load_Facts.sql
-│   └── quality
-│       └── 10_Data_Quality_Checks.sql
+│ ├── database
+│ │ └── 01_Create_Database.sql
+│ ├── dimensions
+│ │ └── 02_Create_Dimension_Tables.sql
+│ ├── facts
+│ │ └── 03_Create_Fact_Tables.sql
+│ ├── indexing
+│ │ └── 04_Indexing_Strategy.sql
+│ ├── columnstore
+│ │ └── 05_Columnstore_Indexes.sql
+│ ├── partitioning
+│ │ └── 06_Partitioning_Strategy.sql
+│ ├── staging
+│ │ └── 07_Staging_Tables.sql
+│ ├── etl_merge
+│ │ └── 08_ETL_Merge_Scripts.sql
+│ ├── etl_facts
+│ │ └── 09_ETL_Load_Facts.sql
+│ └── quality
+│ └── 10_Data_Quality_Checks.sql
 │
 ├── etl
-│   ├── ssis
-│   │   ├── Load_Dimension.dtsx
-│   │   ├── Load_Facts.dtsx
-│   │   └── Master_ETL.dtsx
-│   ├── mapping_document.xlsx
-│   └── dataflow_design.png
+│ ├── ssis
+│ │ ├── Load_Dimension.dtsx
+│ │ ├── Load_Facts.dtsx
+│ │ └── Master_ETL.dtsx
+│ ├── mapping_document.xlsx
+│ └── dataflow_design.png
 │
 ├── dashboards
-│   └── PowerBI_FTI.pbix
+│ └── PowerBI_FTI.pbix
 │
 └── README.md
 
