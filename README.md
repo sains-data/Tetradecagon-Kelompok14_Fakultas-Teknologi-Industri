@@ -81,3 +81,86 @@ Tiga proses bisnis utama FTI yang menjadi fokus Data Mart ini adalah:
 
 ### Folder Structure
 Semua dokumentasi, skrip SQL, dan paket ETL diorganisasi dalam struktur folder berikut:
+FTI-DataMart
+│
+├── docs
+│   ├── Laporan_Misi2.pdf
+│   ├── Dimensional_Model.png
+│   ├── Physical_Design.png
+│   ├── ETL_Architecture.png
+│   └── Data_Quality_Checks_Overview.md
+│
+├── sql
+│   ├── database
+│   │   └── 01_Create_Database.sql
+│   ├── dimensions
+│   │   └── 02_Create_Dimension_Tables.sql
+│   ├── facts
+│   │   └── 03_Create_Fact_Tables.sql
+│   ├── indexing
+│   │   └── 04_Indexing_Strategy.sql
+│   ├── columnstore
+│   │   └── 05_Columnstore_Indexes.sql
+│   ├── partitioning
+│   │   └── 06_Partitioning_Strategy.sql
+│   ├── staging
+│   │   └── 07_Staging_Tables.sql
+│   ├── etl_merge
+│   │   └── 08_ETL_Merge_Scripts.sql
+│   ├── etl_facts
+│   │   └── 09_ETL_Load_Facts.sql
+│   └── quality
+│       └── 10_Data_Quality_Checks.sql
+│
+├── etl
+│   ├── ssis
+│   │   ├── Load_Dimension.dtsx
+│   │   ├── Load_Facts.dtsx
+│   │   └── Master_ETL.dtsx
+│   ├── mapping_document.xlsx
+│   └── dataflow_design.png
+│
+├── dashboards
+│   └── PowerBI_FTI.pbix
+│
+└── README.md
+
+## Physical Data Model
+Desain data mart menggunakan pendekatan **dimensional modeling (Kimball)** dengan dua komponen utama:
+- **Tabel Dimensi**: berisi informasi referensial seperti mahasiswa, dosen, program studi, waktu, jenis prestasi, dan kategori anggaran.
+- **Tabel Fakta**: menyimpan data terukur seperti jumlah mahasiswa aktif, total anggaran, jumlah prestasi, rasio dosen-mahasiswa, dan status akreditasi.
+
+Setiap tabel dimensi menggunakan **surrogate key**, sementara tabel fakta berisi **measures** dan foreign key ke dimensi terkait.
+
+## Indexing Strategy
+Repository ini menyertakan skrip indexing untuk meningkatkan performa query, khususnya saat digunakan dalam dashboard analitik:
+- **Clustered index** pada tabel fakta untuk mempercepat scan dan agregasi.
+- **Nonclustered index** pada foreign key untuk mendukung join antar dimensi–fakta.
+- **Columnstore index** pada fact tables guna mempercepat analisis data berukuran besar.
+
+## Partitioning Strategy
+Beberapa tabel fakta dipartisi berdasarkan **tahun akademik**, sehingga:
+- Query yang menargetkan tahun tertentu menjadi lebih cepat (partition pruning).
+- Proses ETL lebih efisien karena dapat memuat data per partisi.
+- Penyimpanan data multi-tahun menjadi lebih terstruktur dan scalable.
+
+Partitioning menggunakan boundary tahun pada kolom waktu (`sk_waktu`).
+
+## ETL & Data Quality Overview
+
+### ETL Pipeline
+ETL dirancang menggunakan tiga lapisan:
+1. **Staging (stg)** – data mentah hasil extract.
+2. **Integration (int)** – proses standarisasi, cleansing, deduplication, dan mapping.
+3. **Data Warehouse (dbo)** – load akhir ke tabel fakta dan dimensi.
+
+Pipeline ETL diimplementasikan dengan **SSIS** dan didukung skrip `MERGE` SQL.
+
+### Data Quality Checks
+Validasi kualitas data dilakukan pada tahapan integrasi, mencakup:
+- **Completeness check**: memverifikasi data wajib seperti NIM, nama, kode prodi.
+- **Duplicate detection**: mengecek duplikasi pada mahasiswa, prestasi, atau anggaran.
+- **Referential integrity check**: memastikan fakta terhubung dengan dimensi valid.
+- **Range & format validation**: misalnya nilai tidak boleh negatif, kategori sesuai standar.
+
+Dokumentasi DQ terdapat pada folder `/docs`.
