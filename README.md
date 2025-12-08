@@ -48,6 +48,7 @@ Proyek ini difokuskan pada Fakultas Teknologi Industri (FTI), yang terdiri atas 
 * Status akreditasi program studi
 
 ## Architecture
+![Architecture Diagram](Architecture.png)
 * **Approach**: Kimball Dimensional Modeling
 * **Database**: SQL Server 2019 on Azure VM
 * **ETL**: SQL Server Integration Services (SSIS) dan Stored Procedure
