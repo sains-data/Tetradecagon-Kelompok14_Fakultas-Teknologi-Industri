@@ -1,0 +1,127 @@
+"sk_prodi","nama_prodi","fakultas","jenjang","tahun","total_mahasiswa","total_mahasiswa_berprestasi","total_prestasi","total_anggaran","rata_rata_ipk","total_dosen"
+1,Rekayasa Instrumentasi dan Automasi,FTI,S1,2020,466,1,1,266670747.68,3.36,5
+2,Rekayasa Kehutanan,FTI,S1,2020,474,1,1,76525101.81,3.25,11
+3,Rekayasa Keolahragaan,FTI,S1,2020,529,0,0,0.0,3.21,5
+4,Rekayasa Kosmetik,FTI,S1,2020,528,1,1,0.0,3.52,12
+5,Rekayasa Minyak dan Gas,FTI,S1,2020,527,3,3,91263056.91,2.75,9
+6,Teknik Biomedis,FTI,S1,2020,474,0,0,0.0,3.3,9
+7,Teknik Biosistem,FTI,S1,2020,489,1,1,0.0,2.77,8
+8,Teknik Elektro,FTI,S1,2020,480,0,0,112830457.96,3.32,8
+9,Teknik Fisika,FTI,S1,2020,503,1,1,59981422.27,3.47,6
+10,Teknik Geofisika,FTI,S1,2020,494,0,0,228892139.25,3.11,5
+11,Teknik Geologi,FTI,S1,2020,497,2,2,231603636.31,2.74,9
+12,Teknik Industri,FTI,S1,2020,514,1,1,250779232.44,2.57,6
+13,Teknik Informatika,FTI,S1,2020,528,2,2,0.0,3.02,9
+14,Teknik Kimia,FTI,S1,2020,481,3,3,207739859.03,3.41,9
+15,Teknik Material,FTI,S1,2020,523,3,3,0.0,3.25,5
+16,Teknik Mesin,FTI,S1,2020,525,0,0,52201885.26,2.93,10
+17,Teknik Pertambangan,FTI,S1,2020,508,3,3,374954468.56,2.92,7
+18,Teknik Sistem Energi,FTI,S1,2020,491,0,0,277170505.62,2.95,5
+19,Teknik Telekomunikasi,FTI,S1,2020,489,1,1,69984456.09,2.82,5
+20,Teknik Industri Pertanian,FTI,S1,2020,482,0,0,60691611.18,3.45,9
+21,Teknologi Pangan,FTI,S1,2020,508,0,0,0.0,3.26,14
+1,Rekayasa Instrumentasi dan Automasi,FTI,S1,2021,466,1,1,196844864.97,3.09,13
+2,Rekayasa Kehutanan,FTI,S1,2021,474,3,3,0.0,2.66,14
+3,Rekayasa Keolahragaan,FTI,S1,2021,529,1,1,112089284.91,3.3,10
+4,Rekayasa Kosmetik,FTI,S1,2021,528,0,0,192803641.58,3.14,10
+5,Rekayasa Minyak dan Gas,FTI,S1,2021,527,3,3,0.0,2.91,10
+6,Teknik Biomedis,FTI,S1,2021,474,0,0,275086517.66,3.07,12
+7,Teknik Biosistem,FTI,S1,2021,489,0,0,575406734.14,3.22,5
+8,Teknik Elektro,FTI,S1,2021,480,0,0,0.0,3.11,8
+9,Teknik Fisika,FTI,S1,2021,503,1,1,0.0,3.04,5
+10,Teknik Geofisika,FTI,S1,2021,494,2,2,280711901.37,3.18,8
+11,Teknik Geologi,FTI,S1,2021,497,3,3,319878498.76,3.5,6
+12,Teknik Industri,FTI,S1,2021,514,2,2,212492450.95,3.18,5
+13,Teknik Informatika,FTI,S1,2021,528,1,1,0.0,2.7,16
+14,Teknik Kimia,FTI,S1,2021,481,1,1,0.0,2.93,10
+15,Teknik Material,FTI,S1,2021,523,2,2,258536403.01,3.31,5
+16,Teknik Mesin,FTI,S1,2021,525,0,0,0.0,3.09,11
+17,Teknik Pertambangan,FTI,S1,2021,508,0,0,58835377.28,3.06,8
+18,Teknik Sistem Energi,FTI,S1,2021,491,1,1,144882416.69,3.37,6
+19,Teknik Telekomunikasi,FTI,S1,2021,489,2,2,190435085.18,3.48,12
+20,Teknik Industri Pertanian,FTI,S1,2021,482,0,0,167937474.24,2.79,10
+21,Teknologi Pangan,FTI,S1,2021,508,2,2,0.0,3.29,14
+1,Rekayasa Instrumentasi dan Automasi,FTI,S1,2022,466,0,0,0.0,3.36,15
+2,Rekayasa Kehutanan,FTI,S1,2022,474,1,1,0.0,3.54,12
+3,Rekayasa Keolahragaan,FTI,S1,2022,529,1,1,0.0,3.37,11
+4,Rekayasa Kosmetik,FTI,S1,2022,528,2,2,0.0,2.45,11
+5,Rekayasa Minyak dan Gas,FTI,S1,2022,527,1,1,73598459.27,2.75,15
+6,Teknik Biomedis,FTI,S1,2022,474,2,2,140750857.97,3.13,9
+7,Teknik Biosistem,FTI,S1,2022,489,1,1,0.0,2.67,13
+8,Teknik Elektro,FTI,S1,2022,480,0,0,175379984,3.67,6
+9,Teknik Fisika,FTI,S1,2022,503,1,1,0.0,3.24,10
+10,Teknik Geofisika,FTI,S1,2022,494,1,1,215506412.48000002,3.29,5
+11,Teknik Geologi,FTI,S1,2022,497,1,1,0.0,3.16,5
+12,Teknik Industri,FTI,S1,2022,514,1,1,122083903.15,3.05,17
+13,Teknik Informatika,FTI,S1,2022,528,3,3,151951003.28,3.23,13
+14,Teknik Kimia,FTI,S1,2022,481,0,0,271756186.69,3.0,5
+15,Teknik Material,FTI,S1,2022,523,0,0,252762289.32999998,2.79,5
+16,Teknik Mesin,FTI,S1,2022,525,1,1,191444824.35,2.97,6
+17,Teknik Pertambangan,FTI,S1,2022,508,4,4,0.0,3.24,7
+18,Teknik Sistem Energi,FTI,S1,2022,491,0,0,0.0,3.38,7
+19,Teknik Telekomunikasi,FTI,S1,2022,489,2,2,366740822.23,3.02,6
+20,Teknik Industri Pertanian,FTI,S1,2022,482,1,1,0.0,2.84,9
+21,Teknologi Pangan,FTI,S1,2022,508,0,0,203942764.85,2.99,11
+1,Rekayasa Instrumentasi dan Automasi,FTI,S1,2023,466,1,1,0.0,2.91,9
+2,Rekayasa Kehutanan,FTI,S1,2023,474,2,2,111242917.98,3.52,7
+3,Rekayasa Keolahragaan,FTI,S1,2023,529,1,1,0.0,3.02,5
+4,Rekayasa Kosmetik,FTI,S1,2023,528,1,1,0.0,3.32,6
+5,Rekayasa Minyak dan Gas,FTI,S1,2023,527,1,1,134495507.12,3.27,12
+6,Teknik Biomedis,FTI,S1,2023,474,1,1,236872768.5,3.14,9
+7,Teknik Biosistem,FTI,S1,2023,489,0,0,0.0,3.53,12
+8,Teknik Elektro,FTI,S1,2023,480,0,0,140164875.51999998,3.12,12
+9,Teknik Fisika,FTI,S1,2023,503,0,0,0.0,3.12,5
+10,Teknik Geofisika,FTI,S1,2023,494,1,1,0.0,2.81,7
+11,Teknik Geologi,FTI,S1,2023,497,0,0,281872663.71000004,2.71,5
+12,Teknik Industri,FTI,S1,2023,514,0,0,0.0,2.19,17
+13,Teknik Informatika,FTI,S1,2023,528,1,1,0.0,3.42,5
+14,Teknik Kimia,FTI,S1,2023,481,0,0,290897053.97,3.16,7
+15,Teknik Material,FTI,S1,2023,523,1,1,80481138.99,3.68,8
+16,Teknik Mesin,FTI,S1,2023,525,3,3,0.0,3.25,5
+17,Teknik Pertambangan,FTI,S1,2023,508,1,1,171519331,3.04,11
+18,Teknik Sistem Energi,FTI,S1,2023,491,0,0,0.0,3.45,8
+19,Teknik Telekomunikasi,FTI,S1,2023,489,0,0,99144569.25,2.92,10
+20,Teknik Industri Pertanian,FTI,S1,2023,482,1,1,197121539.6,3.19,6
+21,Teknologi Pangan,FTI,S1,2023,508,0,0,64835528.95,2.99,12
+1,Rekayasa Instrumentasi dan Automasi,FTI,S1,2024,466,0,0,172428659.41,2.97,12
+2,Rekayasa Kehutanan,FTI,S1,2024,474,1,1,172491252.7,2.95,6
+3,Rekayasa Keolahragaan,FTI,S1,2024,529,0,0,0.0,3.16,5
+4,Rekayasa Kosmetik,FTI,S1,2024,528,0,0,212877183.93,3.38,5
+5,Rekayasa Minyak dan Gas,FTI,S1,2024,527,0,0,147182026.03,3.18,10
+6,Teknik Biomedis,FTI,S1,2024,474,0,0,0.0,3.0,13
+7,Teknik Biosistem,FTI,S1,2024,489,1,1,495442642.67999995,3.2,6
+8,Teknik Elektro,FTI,S1,2024,480,1,1,422970941.86,3.21,5
+9,Teknik Fisika,FTI,S1,2024,503,0,0,88872229.8,3.26,5
+10,Teknik Geofisika,FTI,S1,2024,494,0,0,394295413.26,3.2,8
+11,Teknik Geologi,FTI,S1,2024,497,0,0,159914852.16,2.97,6
+12,Teknik Industri,FTI,S1,2024,514,1,1,323031176.36,3.39,9
+13,Teknik Informatika,FTI,S1,2024,528,1,1,105222534.87,2.79,5
+14,Teknik Kimia,FTI,S1,2024,481,0,0,0.0,3.22,5
+15,Teknik Material,FTI,S1,2024,523,3,3,71749364.83,3.18,7
+16,Teknik Mesin,FTI,S1,2024,525,1,1,381302282.52,3.27,8
+17,Teknik Pertambangan,FTI,S1,2024,508,2,2,0.0,3.12,5
+18,Teknik Sistem Energi,FTI,S1,2024,491,3,3,294220954.90999997,3.0,7
+19,Teknik Telekomunikasi,FTI,S1,2024,489,2,2,0.0,3.74,5
+20,Teknik Industri Pertanian,FTI,S1,2024,482,1,1,143620723.74,3.37,9
+21,Teknologi Pangan,FTI,S1,2024,508,2,2,0.0,3.17,12
+1,Rekayasa Instrumentasi dan Automasi,FTI,S1,2025,466,0,0,0.0,0.0,0
+2,Rekayasa Kehutanan,FTI,S1,2025,474,0,0,0.0,0.0,0
+3,Rekayasa Keolahragaan,FTI,S1,2025,529,0,0,0.0,0.0,0
+4,Rekayasa Kosmetik,FTI,S1,2025,528,0,0,0.0,0.0,0
+5,Rekayasa Minyak dan Gas,FTI,S1,2025,527,0,0,0.0,0.0,0
+6,Teknik Biomedis,FTI,S1,2025,474,0,0,0.0,0.0,0
+7,Teknik Biosistem,FTI,S1,2025,489,0,0,0.0,0.0,0
+8,Teknik Elektro,FTI,S1,2025,480,0,0,0.0,0.0,0
+9,Teknik Fisika,FTI,S1,2025,503,0,0,0.0,0.0,0
+10,Teknik Geofisika,FTI,S1,2025,494,0,0,0.0,0.0,0
+11,Teknik Geologi,FTI,S1,2025,497,0,0,0.0,0.0,0
+12,Teknik Industri,FTI,S1,2025,514,0,0,0.0,0.0,0
+13,Teknik Informatika,FTI,S1,2025,528,0,0,0.0,0.0,0
+14,Teknik Kimia,FTI,S1,2025,481,0,0,0.0,0.0,0
+15,Teknik Material,FTI,S1,2025,523,0,0,0.0,0.0,0
+16,Teknik Mesin,FTI,S1,2025,525,0,0,0.0,0.0,0
+17,Teknik Pertambangan,FTI,S1,2025,508,0,0,0.0,0.0,0
+18,Teknik Sistem Energi,FTI,S1,2025,491,0,0,0.0,0.0,0
+19,Teknik Telekomunikasi,FTI,S1,2025,489,0,0,0.0,0.0,0
+20,Teknik Industri Pertanian,FTI,S1,2025,482,0,0,0.0,0.0,0
+21,Teknologi Pangan,FTI,S1,2025,508,0,0,0.0,0.0,0
