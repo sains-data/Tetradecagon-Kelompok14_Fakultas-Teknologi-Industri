@@ -6,10 +6,10 @@ Data Mart Fakultas Teknologi Industri (FTI) dikembangkan untuk menyediakan platf
 ## Team Members
 | NIM       | Name                         | Role                             | Email |
 | --------- | ---------------------------- | -------------------------------- | ----- |
-| 122450108 | Andre Hadiman Rotua Parhusip | Project Lead & Database Designer | –     |
-| 123450008 | Nabyla Sharfina              | ETL Developer                    | –     |
-| 123450069 | Arini Puteri Elandra         | BI Developer                     | –     |
-| 123450115 | Muhammad Fadil Alfaizi       | Documentation & QA               | –     |
+| 122450108 | Andre Hadiman Rotua Parhusip | Project Lead & Database Designer | andre.122450108@student.itera.ac.id |
+| 123450008 | Nabyla Sharfina              | ETL Developer                    | nabyla.123450008@student.itera.ac.id |
+| 123450069 | Arini Puteri Elandra         | BI Developer                     | arini.123450069@student.itera.ac.id |
+| 123450115 | Muhammad Fadil Alfaizi       | Documentation & QA               | muhammad.123450115@student.itera.ac.id |
 
 ## Business Domain
 Proyek ini difokuskan pada Fakultas Teknologi Industri (FTI), yang terdiri atas beberapa program studi dan unit akademik. Data mart ini mendukung proses pengelolaan akademik, keuangan, prestasi, akreditasi, dan data dosen.
